@@ -1,5 +1,5 @@
 --SQL HomeWork 2. Joins
-
+--
 
 -- 1. Вывести всех работников чьи зарплаты есть в базе, вместе с зарплатами.
 	
@@ -21,7 +21,7 @@
 	select employee_name, monthly_salary
 	from employees 
 	right join employee_salary on employee_salary.employee_id=employees.id
-	right join salary on salary.id=employee_salary.salary_id
+	inner join salary on salary.id=employee_salary.salary_id
 	where employee_name is null;
  
 -- 4. Вывести все зарплатные позиции  меньше 2000 но работник по ним не назначен. (ЗП есть, но не понятно кто её получает.)
@@ -147,7 +147,7 @@
 
 -- 17. Вывести имена и зарплаты Junior Python разработчиков
 
-	select  monthly_salary
+	select employee_name, monthly_salary
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -157,7 +157,7 @@
 
 -- 18. Вывести имена и зарплаты Middle JS разработчиков
 
-	select  monthly_salary
+	select employee_name,  monthly_salary
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -167,7 +167,7 @@
 
 -- 19. Вывести имена и зарплаты Senior Java разработчиков
 
-	select  monthly_salary
+	select employee_name, monthly_salary
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -187,7 +187,7 @@
 
 -- 21. Вывести среднюю зарплату всех Junior специалистов
 
-	select  avg(monthly_salary)
+	select  avg(monthly_salary) as avg_junior
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -197,7 +197,7 @@
 
 -- 22. Вывести сумму зарплат JS разработчиков
 
-	select  sum(monthly_salary)
+	select  sum(monthly_salary) as sum_JS_dev
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -207,7 +207,7 @@
 
 -- 23. Вывести минимальную ЗП QA инженеров
 
-	select min(monthly_salary)
+	select min(monthly_salary) as min_salary_QA 
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -217,7 +217,7 @@
 
 -- 24. Вывести максимальную ЗП QA инженеров
 
-	select max(monthly_salary)
+	select max(monthly_salary) as max_salary_QA 
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -227,7 +227,7 @@
 
 -- 25. Вывести количество QA инженеров
 
-	select (role_name)
+	select count(role_name) as count_QA
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -235,7 +235,7 @@
 
 -- 26. Вывести количество Middle специалистов.
 
-	select count(role_name)
+	select count(role_name) as count_Middle
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -243,7 +243,7 @@
 
 -- 27. Вывести количество разработчиков
 
-	select count(role_name)
+	select count(role_name) as count_dev
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -251,7 +251,7 @@
 
 -- 28. Вывести фонд (сумму) зарплаты разработчиков.
 
-	select  sum(monthly_salary)
+	select  sum(monthly_salary) as fond_salary_dev
 	from employees
 	inner join roles_employee on roles_employee.id_employee=employees.id
 	inner join roles on roles.id=roles_employee.id_role
@@ -262,13 +262,13 @@
 -- 29. Вывести имена, должности и ЗП всех специалистов по возрастанию
 
 -- (Выводит имена у которых есть должность и ЗП)
+	
 	select employee_name, monthly_salary, role_name
 	from employees
-	full join employee_salary on employee_salary.employee_id=employees.id 
-	full join salary on salary.id=employee_salary.salary_id
-	full outer join roles_employee on roles_employee.id_employee=employees.id
-	full outer join roles on roles.id=roles_employee.id_role
-	where employee_name is not null
+	inner join roles_employee on roles_employee.id_employee=employees.id
+	inner join roles on roles.id=roles_employee.id_role
+	inner join employee_salary on employee_salary.employee_id=employees.id
+	inner join salary on salary.id=employee_salary.salary_id
 	order by employee_name, role_name, monthly_salary;
 
 -- (Выводит имена специалистов, с должностью  )
